@@ -16,6 +16,7 @@ function Lecteur () {
                 controls= "true"
             />
             <button><img src={next} alt="next-button" class="bg-red-600 h-20 w-20 rounded-full" onClick = {console.log("next")}/></button>
+
         </div>
     );
 };
