@@ -11,19 +11,39 @@ function App() {
   //Pas d'état initial puisqu'on a encore rien récupéré (null) ?
   const [episode, setEpisode] = useState(null)
 
+  const ipLenovo = '192.168.0.38'
+  const nodePort = ':8080'
+
   async function downloadEpisode(episodeNumber) {
     const params = {
-      method: 'GET'
+      method: 'GET',
+      mode: 'no-cors',
     }
-    console.log("download ep", episodeNumber)
-    const test = await fetch('https://dumbstockapi.com/stock?exchanges=NYSE')
-    const testFinal = await test.json()
 
-    setEpisode(testFinal)
+    console.log('download ep : ', episodeNumber)
+    
+    //const url = ipLenovo + nodePort + '/episode/' + episodeNumber
+    let response = await fetch('http://localhost:8080/episode/420', params)
+
+    try {
+      const ep = await response.json()
+      console.log ("episode : " + ep.filname )
+    } catch (e) {
+      console.log("err : " + e)
+    }
+   
+    //setEpisode(testFinal)
+  }
+  
+  async function getInfosEpisode () {
+      const response = await fetch ('http://localhost:8080/episode/422')
+      const test = await response.json()
+      console.log('test : ' + test.title)
+
   }
 
   useEffect(() => {
-    return downloadEpisode(420)
+    console.log('prends effet')
   }, []);
 
   // downloadEpisode();
