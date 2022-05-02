@@ -16,51 +16,31 @@ function App() {
   const nodePort = ':8080'
 
   async function getInfosEpisode(episodeNumber) {
+        
+    //const url = ipLenovo + nodePort + '/episode/' + episodeNumber
+    console.log("Nb ep souhaité : ", episodeNumber)
+    const url = "http://localhost:8080/episode/" + episodeNumber
+    let response, episode
+
     const params = {
       method: 'GET',
       mode: 'no-cors',
-    }
-
-    console.log('download ep : ', episodeNumber)
-    
-    //const url = ipLenovo + nodePort + '/episode/' + episodeNumber
-    let response = await fetch('http://localhost:8080/episode/420', params)
+    };
 
     try {
-      const ep = await response.json()
-      console.log ("episode : " + ep.filname )
+      response = await fetch(url, params)
+      episode ? episode = await response.json() : 
+      console.log ("episode : " + episode.filname )
+      setEpisode(episode)
     } catch (e) {
-      console.log("err : " + e)
+      console.log("e : " + e)
     }
-   
-    //setEpisode(testFinal)
-  }
-  
-  async function getInfosEpisode () {
-      const response = await fetch ('http://localhost:8080/episode/422')
-      const test = await response.json()
-      console.log('test : ' + test.title)
-
+      
   }
 
   useEffect(() => {
     console.log('prends effet')
-    console.log("ep", episodeNumber)
-    const url = "http://localhost:8080/episode/" + episodeNumber
-    let response, episode
-    try {
-      response = await fetch(url, params)
-      episode = await response.json()
-    } catch (e) {
-      console.log("e : " + e)
-    }
-    
-    console.log("e : " + episode.fileName)
-    episode ? setEpisode(episode) : setEpisode(null)
-  }
-
-  useEffect(() => {
-  }, []);
+  }, [])
 
   // downloadEpisode();
 
