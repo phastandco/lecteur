@@ -15,31 +15,37 @@ function App() {
   const ipLenovo = '192.168.0.38'
   const nodePort = ':8080'
 
-  async function getInfosEpisode(episodeNumber) {
-        
-    //const url = ipLenovo + nodePort + '/episode/' + episodeNumber
-    console.log("Nb ep souhaité : ", episodeNumber)
-    const url = "http://localhost:8080/episode/" + episodeNumber
-    let response, episode
+  async function getInfosEpisode (episodeNumber) {
+  
+  let episode;
+  //const url = ipLenovo + nodePort + '/episode/' + episodeNumber
+  const url = "http://localhost:8080/episode/" + episodeNumber
+  console.log("url : " + url)
 
-    const params = {
-      method: 'GET',
-      mode: 'no-cors',
-    };
-
-    try {
-      response = await fetch(url, params)
-      episode ? episode = await response.json() : 
-      console.log ("episode : " + episode.filname )
-      setEpisode(episode)
-    } catch (e) {
-      console.log("e : " + e)
-    }
-      
+  const params = {
+    method: 'GET',
   }
 
-  useEffect(() => {
-    console.log('prends effet')
+  let response = await fetch(url, params)
+  console.log("response :" + await response.json())
+}
+
+async function getEpisode(number) {
+  let url = "http://localhost:8080/episode/" + number
+  console.log("fetch : " + url)
+
+  const params = {
+    method: 'GET',
+  };
+
+  let response = await fetch(url, params);
+  let episode = await response.json();
+  console.log("episode", episode.fileName)
+  setEpisode(episode);
+}
+
+useEffect(() => {
+    console.log('prends effet');
   }, [])
 
   // downloadEpisode();
@@ -51,10 +57,9 @@ function App() {
         <input className="rounded-lg text-gray-600" onChange={e => setSearch(e.target.value)}></input>
         <button
         className="rounded-xl bg-gray-600 hover:bg-gray-700 px-4 py-1 my-2 border-solid"
-        onClick={() => getInfosEpisode(search)}>Download
+        onClick={() => getEpisode(search)}>Download
         </button>
-        {episode ? <p> Oui </p>: <p> Non </p>}
-        <EpisodeTitle episode = {episode}/>
+        {episode ? <p> {episode.fileName} </p> : <p> Non </p>}
         <p></p>
       </header>
     </div>
