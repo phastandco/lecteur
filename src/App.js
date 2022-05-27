@@ -15,36 +15,21 @@ function App() {
   const ipLenovo = '192.168.0.38'
   const nodePort = ':8080'
 
-  async function getInfosEpisode (episodeNumber) {
-  
-  let episode;
-  //const url = ipLenovo + nodePort + '/episode/' + episodeNumber
-  const url = "http://localhost:8080/episode/" + episodeNumber
-  console.log("url : " + url)
+  async function getEpisode(number) {
+    let url = "http://localhost:8080/episode/" + number
+    console.log("fetch : " + url)
 
-  const params = {
-    method: 'GET',
+    const params = {
+      method: 'GET',
+    };
+
+    let response = await fetch(url, params);
+    let episode = await response.json();
+    console.log("episode", episode.fileName)
+    setEpisode(episode);
   }
 
-  let response = await fetch(url, params)
-  console.log("response :" + await response.json())
-}
-
-async function getEpisode(number) {
-  let url = "http://localhost:8080/episode/" + number
-  console.log("fetch : " + url)
-
-  const params = {
-    method: 'GET',
-  };
-
-  let response = await fetch(url, params);
-  let episode = await response.json();
-  console.log("episode", episode.fileName)
-  setEpisode(episode);
-}
-
-useEffect(() => {
+  useEffect(() => {
     console.log('prends effet');
   }, [])
 
@@ -59,9 +44,8 @@ useEffect(() => {
         className="rounded-xl bg-gray-600 hover:bg-gray-700 px-4 py-1 my-2 border-solid"
         onClick={() => getEpisode(search)}>Download
         </button>
-        {episode ? <p> {episode.fileName} </p> : <p> Non </p>}
-        <p></p>
-      </header>
+        {<EpisodeTitle episode={episode}/>}
+        </header>
     </div>
   );
 }

@@ -1,13 +1,12 @@
 import React from "react";
 
-function EpisodeTitle (episode) {
-
-    if (!episode) {
-        return <p> pas d'ep</p>
-    } else if (episode.tile === null) {
-        return <p> on sait pas </p>
+const EpisodeTitle = episode => {
+    if (episode) {
+        console.log("ça marche", episode)
+        return <p> {episode.fileName} </p>
     } else {
-        return <p> wat 2 fuk </p>
+        console.log("ça marche po", episode)
+        return <p> {episode.fileName} </p>
     }
 }
 
